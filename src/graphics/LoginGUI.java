@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoginGUI implements ActionListener {
+public class LoginGUI {
 	
 	private static JLabel emailLabel;
 	private static JTextField userText;
@@ -23,9 +24,8 @@ public class LoginGUI implements ActionListener {
 	private static JButton button;
 	private static JLabel success;
 	private static JLabel createAccount;
-	private static CreateAccountGUI create = new CreateAccountGUI();
-
-	public static void main(String[] args) {
+	
+	public LoginGUI() {
 		JPanel panel = new JPanel();
 		JFrame frame = new JFrame();
 		frame.setSize(350, 200);
@@ -57,7 +57,24 @@ public class LoginGUI implements ActionListener {
 		
 		button = new JButton("Login");
 		button.setBounds(10, 80, 80, 25);
-		button.addActionListener(new LoginGUI());
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// on the click of the button
+				HashMap<String, String> users = CreateAccountGUI.getUserAccounts();
+				String email = userText.getText();
+				String password = String.valueOf(passwordText.getPassword());
+				
+				if(users.containsKey(email)) {
+					String enteredPassword = users.get(email);
+					if(enteredPassword.equals(password)) {
+						success.setText("Login Successful!");
+					}
+				} else {
+					success.setText("User does not exist.");
+				}
+			}
+		});
 		panel.add(button);
 		
 		success = new JLabel("");
@@ -92,8 +109,7 @@ public class LoginGUI implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		System.out.println("Login Successful!");
+	public static void main(String[] args) {
+		new LoginGUI();
 	}
 }

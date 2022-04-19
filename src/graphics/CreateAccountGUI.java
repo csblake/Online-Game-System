@@ -3,8 +3,10 @@ package graphics;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ public class CreateAccountGUI {
 	private static JButton button;
 	private static JLabel success;
 	private static JLabel createAccount;
+	private static HashMap<String, String> userAccounts = new HashMap<>();
 
 	public CreateAccountGUI() {
 		JPanel panel = new JPanel();
@@ -54,8 +57,21 @@ public class CreateAccountGUI {
 		panel.add(passwordText);
 		
 		button = new JButton("Create Account");
-		button.setBounds(10, 80, 80, 25);
-		button.addActionListener(new LoginGUI());
+		button.setBounds(10, 80, 120, 25);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// on the click of the button
+				success.setText("Your Account was created!");
+				
+				// get the email and password that was entered
+				String email = userText.getText();
+				String password = String.valueOf(passwordText.getPassword());
+				
+				// enter the email and password into the active user accounts
+				userAccounts.put(email, password);
+			}
+		});
 		panel.add(button);
 		
 		success = new JLabel("");
@@ -92,5 +108,13 @@ public class CreateAccountGUI {
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Account Created!");
+	}
+	
+	public static HashMap<String, String> getUserAccounts() {
+		return userAccounts;
+	}
+
+	public static void setUserAccounts(HashMap<String, String> userAccounts) {
+		CreateAccountGUI.userAccounts = userAccounts;
 	}
 }
