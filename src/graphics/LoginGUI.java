@@ -24,6 +24,8 @@ public class LoginGUI {
 	private static JButton button;
 	private static JLabel success;
 	private static JLabel createAccount;
+	private static JLabel usersOnlineLabel;
+	private static int loginCount = 0;
 	
 	public LoginGUI() {
 		JPanel panel = new JPanel();
@@ -36,6 +38,12 @@ public class LoginGUI {
 		
 		panel.setLayout(null);
 		panel.setBackground(Color.GRAY);
+		
+		usersOnlineLabel = new JLabel("Players Online: " + loginCount);
+		usersOnlineLabel.setBounds(220, 140, 120, 25);
+		usersOnlineLabel.setForeground(Color.WHITE);
+		panel.add(usersOnlineLabel);
+		
 		
 		emailLabel = new JLabel("User", JLabel.CENTER);
 		emailLabel.setBounds(10, 20 , 80, 25);
@@ -69,6 +77,8 @@ public class LoginGUI {
 					String enteredPassword = users.get(email);
 					if(enteredPassword.equals(password)) {
 						success.setText("Login Successful!");
+						loginCount++;
+						usersOnlineLabel.setText("Players Online: " + loginCount);
 					}
 				} else {
 					success.setText("User does not exist.");
@@ -107,9 +117,5 @@ public class LoginGUI {
 		
 		
 		frame.setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		new LoginGUI();
 	}
 }
