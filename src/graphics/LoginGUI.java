@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import javax.swing.JTextField;
 public class LoginGUI {
 	
 	private static JLabel emailLabel;
+	private static JLabel queueLabel;
 	private static JTextField userText;
 	private static JLabel passwordLabel;
 	private static JPasswordField passwordText;
@@ -25,7 +28,9 @@ public class LoginGUI {
 	private static JLabel success;
 	private static JLabel createAccount;
 	private static JLabel usersOnlineLabel;
+	private static JLabel logout;
 	private static int loginCount = 0;
+	private static Queue<String> queue = new LinkedList<>();
 	
 	public LoginGUI() {
 		JPanel panel = new JPanel();
@@ -73,15 +78,25 @@ public class LoginGUI {
 				String email = userText.getText();
 				String password = String.valueOf(passwordText.getPassword());
 				
-				if(users.containsKey(email)) {
-					String enteredPassword = users.get(email);
-					if(enteredPassword.equals(password)) {
-						success.setText("Login Successful!");
-						loginCount++;
-						usersOnlineLabel.setText("Players Online: " + loginCount);
-					}
+				if(loginCount >= 2) {
+					// add player to queue
+					queue.add(email);
+					
+					// show that players are in queue
+					queueLabel.setText("Users in queue: " + queue.size());
+					success.setText("Placed in queue.");
 				} else {
-					success.setText("User does not exist.");
+				
+					if(users.containsKey(email)) {
+						String enteredPassword = users.get(email);
+						if(enteredPassword.equals(password)) {
+							success.setText("Login Successful!");
+							loginCount++;
+							usersOnlineLabel.setText("Players Online: " + loginCount);
+						}
+					} else {
+						success.setText("User does not exist.");
+					}
 				}
 			}
 		});
@@ -90,6 +105,10 @@ public class LoginGUI {
 		success = new JLabel("");
 		success.setBounds(10, 110, 300, 25);
 		panel.add(success);
+		
+		queueLabel = new JLabel("");
+		queueLabel.setBounds(220, 0, 120, 25);
+		panel.add(queueLabel);
 		
 		createAccount = new JLabel("Create Account");
 		createAccount.setBounds(10, 140, 120, 25);
@@ -115,7 +134,47 @@ public class LoginGUI {
 		});
 		panel.add(createAccount);
 		
+		logout = new JLabel("| Logout");
+		logout.setBounds(110, 140, 120, 25);
+		logout.setForeground(Color.BLUE);
+		logout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		logout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// the user clicks the label
+				new LogoutGUI();
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// the mouse has entered the label
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// the mouse has exited the label
+			}
+		});
+		panel.add(logout);
+		
 		
 		frame.setVisible(true);
+	}
+
+	public static int getLoginCount() {
+		return loginCount;
+	}
+
+	public static void setLoginCount(int loginCount) {
+		LoginGUI.loginCount = loginCount;
+	}
+	
+	public static Queue<String> getQueue() {
+		return queue;
+	}
+
+	public static void setQueue(Queue<String> queue) {
+		LoginGUI.queue = queue;
 	}
 }

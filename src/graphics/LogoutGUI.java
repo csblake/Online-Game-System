@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class CreateAccountGUI {
-	
+public class LogoutGUI {
+
 	private static JLabel emailLabel;
 	private static JTextField userText;
 	private static JLabel passwordLabel;
@@ -24,13 +25,12 @@ public class CreateAccountGUI {
 	private static JButton button;
 	private static JLabel success;
 	private static JLabel createAccount;
-	static HashMap<String, String> userAccounts = new HashMap<>();
-
-	public CreateAccountGUI() {
+	
+	public LogoutGUI() {
 		JPanel panel = new JPanel();
 		JFrame frame = new JFrame();
 		frame.setSize(350, 200);
-		frame.setTitle("Create Account");
+		frame.setTitle("Logout");
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(panel);
@@ -56,7 +56,7 @@ public class CreateAccountGUI {
 		passwordText.setBounds(100, 50, 165, 25);
 		panel.add(passwordText);
 		
-		button = new JButton("Create Account");
+		button = new JButton("Logout");
 		button.setBounds(10, 80, 120, 25);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -64,15 +64,22 @@ public class CreateAccountGUI {
 				// get the email and password that was entered
 				String email = userText.getText();
 				String password = String.valueOf(passwordText.getPassword());
+				HashMap<String, String> users = CreateAccountGUI.getUserAccounts();
+				Queue<String> usersQueue = LoginGUI.getQueue();
 				
-				if(userAccounts.get(email) == null) {
+				if(users.get(email) != null) {
 					// on the click of the button
-					success.setText("Your Account was created!");
+					success.setText("Your Account was logged out!");
 					
-					// enter the email and password into the active user accounts
-					userAccounts.put(email, password);
+					// take away from online player amount
+					int players = LoginGUI.getLoginCount();
+					players--;
+					LoginGUI.setLoginCount(players);
+					usersQueue.poll();
+					
+					new LoginGUI();
 				} else {
-					success.setText("Email already exists. Try again.");
+					success.setText("Email not in system.");
 				}
 			}
 		});
@@ -108,17 +115,5 @@ public class CreateAccountGUI {
 		
 		
 		frame.setVisible(true);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		System.out.println("Account Created!");
-	}
-	
-	public static HashMap<String, String> getUserAccounts() {
-		return userAccounts;
-	}
-
-	public static void setUserAccounts(HashMap<String, String> userAccounts) {
-		CreateAccountGUI.userAccounts = userAccounts;
 	}
 }
