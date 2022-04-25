@@ -6,11 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.print.PrinterException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -24,6 +32,7 @@ public class CreateAccountGUI {
 	private static JButton button;
 	private static JLabel success;
 	private static JLabel createAccount;
+	private static JLabel viewAccounts;
 	static HashMap<String, String> userAccounts = new HashMap<>();
 
 	public CreateAccountGUI() {
@@ -106,6 +115,30 @@ public class CreateAccountGUI {
 		});
 		panel.add(createAccount);
 		
+		viewAccounts = new JLabel("| ViewAccounts");
+		viewAccounts.setBounds(50, 140, 120, 25);
+		viewAccounts.setForeground(Color.BLUE);
+		viewAccounts.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		viewAccounts.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// the user clicks the label
+				JOptionPane.showMessageDialog(frame, sortUsersByEmail(userAccounts));
+//				new AccountsViewGUI();
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// the mouse has entered the label
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// the mouse has exited the label
+			}
+		});
+		panel.add(viewAccounts);
 		
 		frame.setVisible(true);
 	}
@@ -120,5 +153,30 @@ public class CreateAccountGUI {
 
 	public static void setUserAccounts(HashMap<String, String> userAccounts) {
 		CreateAccountGUI.userAccounts = userAccounts;
+	}
+	
+	static String result = "";
+
+	public static String sortUsersByEmail(HashMap<String, String> hash) {
+		// make the set
+		Set<Entry<String, String>> entrySet = userAccounts.entrySet();
+		
+		// make the list to sort set
+		List<Entry<String, String>> list = new ArrayList<>(entrySet);
+		
+		Collections.sort(list, new Comparator<Entry<String, String>>() {
+
+			@Override
+			public int compare(Entry<String, String> o1, Entry<String, String> o2) {
+				return o1.getKey().compareTo(o2.getKey());
+			}
+			
+		});
+				
+		list.forEach(s ->{
+			result += s.getKey() + "\t" + s.getValue() + "\n";
+		});
+		
+		return result;
 	}
 }
