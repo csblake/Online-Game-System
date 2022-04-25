@@ -98,17 +98,20 @@ public class LogoutGUI {
 			public void mouseClicked(MouseEvent e) {
 				// the user clicks the label
 				new LoginGUI();
+				frame.setVisible(false);
+				frame.dispose();
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// the mouse has entered the label
-				
+				createAccount.setForeground(Color.WHITE);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// the mouse has exited the label
+				createAccount.setForeground(Color.BLUE);
 			}
 		});
 		panel.add(createAccount);

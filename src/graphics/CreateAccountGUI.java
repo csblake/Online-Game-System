@@ -100,17 +100,20 @@ public class CreateAccountGUI {
 			public void mouseClicked(MouseEvent e) {
 				// the user clicks the label
 				new LoginGUI();
+				frame.setVisible(false);
+				frame.dispose();
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// the mouse has entered the label
-				
+				createAccount.setForeground(Color.WHITE);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// the mouse has exited the label
+				createAccount.setForeground(Color.BLUE);
 			}
 		});
 		panel.add(createAccount);
@@ -130,12 +133,13 @@ public class CreateAccountGUI {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// the mouse has entered the label
-				
+				viewAccounts.setForeground(Color.WHITE);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// the mouse has exited the label
+				viewAccounts.setForeground(Color.BLUE);
 			}
 		});
 		panel.add(viewAccounts);
@@ -155,10 +159,11 @@ public class CreateAccountGUI {
 		CreateAccountGUI.userAccounts = userAccounts;
 	}
 	
-	static String result = "";
+	static String result;
 
 	public static String sortUsersByEmail(HashMap<String, String> hash) {
 		// make the set
+		result = "";
 		Set<Entry<String, String>> entrySet = userAccounts.entrySet();
 		
 		// make the list to sort set

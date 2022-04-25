@@ -119,17 +119,20 @@ public class LoginGUI {
 			public void mouseClicked(MouseEvent e) {
 				// the user clicks the label
 				new CreateAccountGUI();
+				frame.setVisible(false);
+				frame.dispose();
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// the mouse has entered the label
-				
+				createAccount.setForeground(Color.WHITE);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// the mouse has exited the label
+				createAccount.setForeground(Color.BLUE);
 			}
 		});
 		panel.add(createAccount);
@@ -143,17 +146,20 @@ public class LoginGUI {
 			public void mouseClicked(MouseEvent e) {
 				// the user clicks the label
 				new LogoutGUI();
+				frame.setVisible(false);
+				frame.dispose();
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// the mouse has entered the label
-				
+				logout.setForeground(Color.WHITE);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// the mouse has exited the label
+				logout.setForeground(Color.BLUE);
 			}
 		});
 		panel.add(logout);
