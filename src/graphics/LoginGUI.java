@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 public class LoginGUI {
 	
+	// attributes
 	private static JLabel emailLabel;
 	private static JLabel queueLabel;
 	private static JTextField userText;
@@ -73,11 +74,12 @@ public class LoginGUI {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// on the click of the button
+				// on the click of the button get hash map, email, and password from user
 				HashMap<String, String> users = CreateAccountGUI.getUserAccounts();
 				String email = userText.getText();
 				String password = String.valueOf(passwordText.getPassword());
 				
+				// once the login count is two or more the players that try to login will be placed in a queue
 				if(loginCount >= 2) {
 					// add player to queue
 					queue.add(email);
@@ -87,6 +89,7 @@ public class LoginGUI {
 					success.setText("Placed in queue.");
 				} else {
 				
+					// if the players email exists in the hash map log them in and then increase the login count to keep track of how many players are online
 					if(users.containsKey(email)) {
 						String enteredPassword = users.get(email);
 						if(enteredPassword.equals(password)) {
@@ -117,7 +120,7 @@ public class LoginGUI {
 		createAccount.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// the user clicks the label
+				// the user clicks the label call the create account gui and dispose the current frame
 				new CreateAccountGUI();
 				frame.setVisible(false);
 				frame.dispose();
@@ -144,7 +147,7 @@ public class LoginGUI {
 		logout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// the user clicks the label
+				// the user clicks the label and opens up the logout gui and disposes the current frame
 				new LogoutGUI();
 				frame.setVisible(false);
 				frame.dispose();

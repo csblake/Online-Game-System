@@ -15,6 +15,7 @@ public class CreateAccountGUITest {
 	public void setUp() throws Exception {
 	}
 
+	// Only testing the sort users method because it is the only method that I made other than getters and setters for the program to work with the GUI's 
 	@Test
 	public void testSortUsersByEmailGoodSort() {
 		// make the hash map

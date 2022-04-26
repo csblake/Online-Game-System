@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 
 public class CreateAccountGUI {
 	
+	// attributes
 	private static JLabel emailLabel;
 	private static JTextField userText;
 	private static JLabel passwordLabel;
@@ -74,6 +75,7 @@ public class CreateAccountGUI {
 				String email = userText.getText();
 				String password = String.valueOf(passwordText.getPassword());
 				
+				// if the user account entered isn't in the hash map enter the email and password into the hash map
 				if(userAccounts.get(email) == null) {
 					// on the click of the button
 					success.setText("Your Account was created!");
@@ -98,7 +100,7 @@ public class CreateAccountGUI {
 		createAccount.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// the user clicks the label
+				// the user clicks the label and calls the login gui while also closing the current gui
 				new LoginGUI();
 				frame.setVisible(false);
 				frame.dispose();
@@ -125,9 +127,8 @@ public class CreateAccountGUI {
 		viewAccounts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// the user clicks the label
+				// the user clicks the label and pops up a message in the same frame showing the accounts
 				JOptionPane.showMessageDialog(frame, sortUsersByEmail(userAccounts));
-//				new AccountsViewGUI();
 			}
 			
 			@Override
@@ -159,8 +160,9 @@ public class CreateAccountGUI {
 		CreateAccountGUI.userAccounts = userAccounts;
 	}
 	
-	static String result;
 
+	// this is the sorting algorithm I used to sort a hash map of strings to be in alphabetical order
+	static String result;
 	public static String sortUsersByEmail(HashMap<String, String> hash) {
 		// make the set
 		result = "";

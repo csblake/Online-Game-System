@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 public class LogoutGUI {
 
+	// attributes
 	private static JLabel emailLabel;
 	private static JTextField userText;
 	private static JLabel passwordLabel;
@@ -61,12 +62,13 @@ public class LogoutGUI {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// get the email and password that was entered
+				// get the email and password that was entered and get the queue and hash map from other classes
 				String email = userText.getText();
 				String password = String.valueOf(passwordText.getPassword());
 				HashMap<String, String> users = CreateAccountGUI.getUserAccounts();
 				Queue<String> usersQueue = LoginGUI.getQueue();
 				
+				// if the users email exists in the hash map logout the player and take first person out of the queue
 				if(users.get(email) != null) {
 					// on the click of the button
 					success.setText("Your Account was logged out!");
@@ -96,7 +98,7 @@ public class LogoutGUI {
 		createAccount.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// the user clicks the label
+				// the user clicks the label and opens the login gui and disposes of the current frame
 				new LoginGUI();
 				frame.setVisible(false);
 				frame.dispose();
