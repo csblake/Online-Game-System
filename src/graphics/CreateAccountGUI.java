@@ -196,7 +196,7 @@ public class CreateAccountGUI {
 		});
 				
 		list.forEach(s ->{
-			result += s.getKey() + "\t" + s.getValue() + "\n";
+			result += s.getKey() + "\t\n";
 		});
 		
 		return result;
