@@ -69,6 +69,7 @@ public class CreateAccountGUI {
 		button = new JButton("Create Account");
 		button.setBounds(10, 80, 120, 25);
 		button.addActionListener(new ActionListener() {
+			// method has input validation for email and password to make sure that the email is valid and the password contains a special character
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// get the email and password that was entered
@@ -77,11 +78,25 @@ public class CreateAccountGUI {
 				
 				// if the user account entered isn't in the hash map enter the email and password into the hash map
 				if(userAccounts.get(email) == null) {
-					// on the click of the button
-					success.setText("Your Account was created!");
+					boolean containsSpecial = false;
 					
-					// enter the email and password into the active user accounts
-					userAccounts.put(email, password);
+					// for loop to check for special char in password
+					for(int counter = 0; counter < password.length(); counter++) {
+						char current = password.charAt(counter);
+						if(!Character.isDigit(current) && !Character.isWhitespace(current) && !Character.isLetter(current)) {
+							containsSpecial = true;
+						}
+					}
+					// on the click of the button
+					if(email.contains("@") && containsSpecial) {
+						success.setText("Your Account was created!");
+						
+						// enter the email and password into the active user accounts
+						userAccounts.put(email, password);
+					} else {
+						success.setText("Need valid email and password with special.");
+					}
+					
 				} else {
 					success.setText("Email already exists. Try again.");
 				}
